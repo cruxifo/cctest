@@ -1,0 +1,117 @@
+<div class="table-wrapper">
+     <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="name">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="name"
+               >
+                    <span class="text-uppercase">Name</span>
+               </th>
+               <td mat-cell *matCellDef="let element">
+                    {{ element.name }}
+               </td>
+          </ng-container>
+          <ng-container matColumnDef="phone">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="phone"
+               >
+                    <span class="text-uppercase">Phone</span>
+               </th>
+               <td mat-cell *matCellDef="let element">
+                    <span class="text-truncate">{{ element.phone }}</span>
+               </td>
+          </ng-container>
+          <ng-container matColumnDef="valid">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="valid"
+               >
+                    <span class="text-uppercase">valid</span>
+               </th>
+               <td mat-cell *matCellDef="let element" class="valid">
+                    <app-boolean-icon
+                         [state]="element.valid"
+                    ></app-boolean-icon>
+               </td>
+          </ng-container>
+          <ng-container matColumnDef="duplicate">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="duplicate"
+               >
+                    <span class="text-uppercase">Dup.</span>
+               </th>
+               <td mat-cell *matCellDef="let element">
+                    <app-boolean-icon
+                         *ngIf="element.duplicate"
+                         [state]="element.duplicate"
+                    ></app-boolean-icon>
+               </td>
+          </ng-container>
+          <ng-container matColumnDef="sent">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="sent"
+               >
+                    <span class="text-uppercase">sent</span>
+               </th>
+               <td mat-cell *matCellDef="let element">
+                    <app-boolean-icon [state]="element.sent"></app-boolean-icon>
+               </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="status"
+               >
+                    <span class="text-uppercase">status</span>
+               </th>
+
+               <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+          </ng-container>
+          <ng-container matColumnDef="errorCode">
+               <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="return-code"
+               >
+                    <span class="text-uppercase">Code</span>
+               </th>
+               <td mat-cell *matCellDef="let element" class="return-code">
+                    <span *ngIf="element.errorCode">
+                         {{ element.errorCode }}
+                         <mat-icon [matTooltip]="element.errorMessage">
+                              error_outline
+                         </mat-icon>
+                    </span>
+               </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+     </table>
+
+     <div class="paginator">
+          <mat-paginator
+               #paginator
+               [pageSize]="10"
+               [pageSizeOptions]="[10, 20, 100]"
+               [showFirstLastButtons]="true"
+          >
+          </mat-paginator>
+     </div>
+</div>

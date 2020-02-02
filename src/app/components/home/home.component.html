@@ -1,0 +1,156 @@
+<div class="row">
+     <div class="col">
+          <h2>
+               Total Records: {{ info?.total }}
+               <ng-container *ngIf="info?.total">
+                    Duplicates: {{ info?.duplicates }} Invalid:
+                    {{ info?.invalid }}
+                    <button mat-raised-button color="primary" (click)="reset()">
+                         Start Over
+                    </button>
+               </ng-container>
+          </h2>
+     </div>
+</div>
+
+<mat-tab-group [selectedIndex]="selectedTab">
+     <mat-tab label="Load Data">
+          <app-csv-upload (fileDropped)="processCSV($event)"></app-csv-upload>
+          <button mat-raised-button color="primary" (click)="dummy()">
+               Dummy Data
+          </button>
+     </mat-tab>
+     <mat-tab label="Compose" [disabled]="!info.total">
+          <app-message-composer
+               (message)="setMessage($event)"
+          ></app-message-composer>
+     </mat-tab>
+     <mat-tab label="Process" [disabled]="!info.total || !message">
+          <ng-container *ngTemplateOutlet="processTab"></ng-container>
+     </mat-tab>
+</mat-tab-group>
+
+<!-- END MAIN CONTENT -->
+
+<!-- Using d-none instead of ngIf cos mat-table can't find the sort/paginators as @ViewChildren otherwise-->
+<ng-template #processTab>
+     <div class="row mt-3">
+          <div class="col process-tab">
+               <div>
+                    <button
+                         mat-raised-button
+                         color="primary"
+                         (click)="startSend()"
+                         *ngIf="!sending"
+                         [disabled]="!pendingCount"
+                    >
+                         Start
+                    </button>
+                    <button
+                         mat-raised-button
+                         color="primary"
+                         (click)="cancelSend()"
+                         *ngIf="sending"
+                    >
+                         Cancel
+                    </button>
+                    <span class="ml-3">
+                         {{ pendingCount }} messages remaining
+                    </span>
+               </div>
+               <div class="mt-2">
+                    <mat-progress-bar
+                         mode="determinate"
+                         value="{{ progress }}"
+                    ></mat-progress-bar>
+               </div>
+          </div>
+     </div>
+
+     <div class="row">
+          <div class="col">
+               <form [formGroup]="form">
+                    <h2>
+                         Filters
+                         <button
+                              mat-raised-button
+                              *ngIf="
+                                   filter || form.get('filter').value !== 'ALL'
+                              "
+                              (click)="resetFilter()"
+                              class="font-weight-lighter clickable"
+                         >
+                              Reset
+                         </button>
+                    </h2>
+                    <mat-radio-group
+                         aria-label="Select an option"
+                         formControlName="filter"
+                    >
+                         <mat-radio-button value="ALL">
+                              All
+                         </mat-radio-button>
+                         <mat-radio-button
+                              value="VALID"
+                              [disabled]="!info.valid"
+                         >
+                              Valid
+                         </mat-radio-button>
+                         <mat-radio-button
+                              value="INVALID"
+                              [disabled]="!info.invalid"
+                         >
+                              <span
+                                   [matBadge]="info.invalid"
+                                   matBadgeColor="accent"
+                                   [matBadgeHidden]="!info.invalid"
+                              >
+                                   Invalid
+                              </span>
+                         </mat-radio-button>
+                         <mat-radio-button value="SENT" *ngIf="info.sent">
+                              Sent
+                         </mat-radio-button>
+                         <mat-radio-button
+                              *ngIf="info.unsent !== info.total"
+                              value="UNSENT"
+                         >
+                              Unsent
+                         </mat-radio-button>
+                         <mat-radio-button value="FAILED" *ngIf="info.failed">
+                              <span
+                                   [matBadge]="info.failed"
+                                   matBadgeColor="warn"
+                              >
+                                   Failed
+                              </span>
+                         </mat-radio-button>
+                    </mat-radio-group>
+               </form>
+               <h4 class="dupes">
+                    Duplicates
+                    <span
+                         *ngIf="!filter"
+                         class="font-weight-lighter show-dupes"
+                    >
+                         (click item to show)
+                    </span>
+               </h4>
+
+               <mat-chip-list>
+                    <mat-chip
+                         *ngFor="let item of duplicates"
+                         (click)="filterDuplicates(item)"
+                    >
+                         {{ item }}
+                    </mat-chip>
+               </mat-chip-list>
+          </div>
+     </div>
+
+     <div class="row">
+          <div class="col">
+               <app-table [data]="filteredData" [filter]="filter"></app-table>
+          </div>
+     </div>
+</ng-template>

@@ -1,0 +1,41 @@
+.grid {
+     margin-top: 1rem;
+     display: grid;
+
+     grid-template-columns: 1fr 1fr;
+     gap: 1rem;
+     .left {
+          textarea {
+               width: 100%;
+               padding: 0.5rem;
+          }
+     }
+     .right {
+          align-self: stretch;
+          position: relative;
+          max-width: 400px;
+          height: 800px;
+          img {
+               position: absolute;
+               left: 0;
+               top: 0;
+               width: 100%;
+               z-index: 0;
+          }
+          .msg {
+               position: absolute;
+               left: 40px;
+               top: 170px;
+               width: 60%;
+               background-color: lightgray;
+               padding: 0.75rem;
+               border-radius: 0.75rem;
+               z-index: 1;
+               font-size: 14px;
+               white-space: pre-wrap;
+               &.error {
+                    background-color: lightpink;
+               }
+          }
+     }
+}

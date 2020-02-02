@@ -1,0 +1,14 @@
+<div class="row">
+     <div class="col">
+          <div class="drop-target" [ngClass]="{ over: over }">
+               <div class="text">
+                    <ng-container *ngIf="!over">
+                         Drag CSV here to upload
+                    </ng-container>
+                    <ng-container *ngIf="over">
+                         Almost there. Just let go of the mouse button.
+                    </ng-container>
+               </div>
+          </div>
+     </div>
+</div>

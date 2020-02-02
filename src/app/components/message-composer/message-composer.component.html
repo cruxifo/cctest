@@ -1,0 +1,16 @@
+<div class="grid">
+     <div class="left">
+          <form [formGroup]="form">
+               <textarea rows="10" formControlName="message"></textarea>
+          </form>
+     </div>
+     <div class="right">
+          <img src="/assets/sms.png" alt="SMS Preview" />
+          <div class="msg" [ngClass]="{ error: error }">
+               <ng-container *ngIf="!msg">
+                    ERROR - message must include '|NAME|'
+               </ng-container>
+               {{ msg }}
+          </div>
+     </div>
+</div>

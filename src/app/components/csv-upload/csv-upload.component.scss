@@ -1,0 +1,20 @@
+.drop-target {
+     position: relative;
+     border: 1px solid black;
+     height: calc(100vh - 480px);
+     margin: 1rem;
+     overflow-y: hidden;
+     &.over {
+          border-color: chocolate;
+          border-style: dashed;
+          background-color: lightgoldenrodyellow;
+     }
+     .text {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+     }
+
+     text-align: center;
+}
