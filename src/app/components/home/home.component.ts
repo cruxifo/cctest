@@ -97,8 +97,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                return;
           }
           this.progress = 0;
-          const incr = 100.0 / N;
           this.sending = true;
+          const incr = 100.0 / N;
+
+          if (this.cancel$) {
+               this.cancel$.complete();
+          }
+
           this.cancel$ = new Subject<any>();
 
           this.subsink.sink = of(...toSend)
