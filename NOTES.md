@@ -12,7 +12,7 @@ Ran out of time to do too much on this. No test data was supplied so I didn't ru
 
 1. I've no idea what "Mason code" is :-)
 
-1. I'm curious about the need for `flush()`. If anything, isn't it more critcal on `csrf`? (Or is only STDOUT buffered?)
+1. I'm curious about the need for `flush()`. If anything, isn't it more critcal on `csvf`? (Or is only STDOUT buffered?)
 
 1. No checks on the response code - the message is always added to `SentList`, regardless. Should ideally be able to distinguish between permanent and temporary errors (e.g., "rate limit exceeded"). Obviously, a "full" solution would be able to query the API to check status, etc, but I don't think that copes with all cases.
 
